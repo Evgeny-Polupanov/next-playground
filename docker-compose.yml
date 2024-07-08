@@ -10,7 +10,7 @@ services:
     environment:
       MINIO_ROOT_USER: ROOTUSER
       MINIO_ROOT_PASSWORD: ROOTPASSWORD
-    container_name: minio
+    container_name: storage
   db:
     image: postgres:13
     container_name: db
