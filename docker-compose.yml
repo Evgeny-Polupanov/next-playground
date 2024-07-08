@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  storage:
+    image: docker.io/bitnami/minio:2024
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - 'minio_data:/bitnami/minio/data'
+    environment:
+      MINIO_ROOT_USER: ROOTUSER
+      MINIO_ROOT_PASSWORD: ROOTPASSWORD
+    container_name: minio
+  db:
+    image: postgres:13
+    container_name: db
+    ports:
+      - '5433:5432'
+    environment:
+      DB: shop_db
+      USER: shop_user
+      PASSWORD: shop_password
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data'
+  web:
+    build: ./
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
+    container_name: web
+    depends_on:
+      - storage
+      - db
+
+volumes:
+  minio_data:
+    driver: local
+  postgres_data:
+
+networks:
+  default:
+    name: shop
+    external: true
