@@ -17,17 +17,22 @@ services:
     ports:
       - '5433:5432'
     environment:
-      DB: shop_db
-      USER: shop_user
-      PASSWORD: shop_password
+      POSTGRES_DB: shop_db
+      POSTGRES_USER: shop_user
+      POSTGRES_PASSWORD: shop_password
     volumes:
       - 'postgres_data:/var/lib/postgresql/data'
   web:
     build: ./
+    volumes:
+      - ./:/app
     ports:
       - '3000:3000'
     stdin_open: true
     tty: true
+    environment:
+      MINIO_URL: storage
+      DATABASE_URL: postgresql://shop_user:shop_password@db:5433/shop_db?schema=public
     container_name: web
     depends_on:
       - storage
