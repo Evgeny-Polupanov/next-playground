@@ -1,11 +1,11 @@
 import * as Minio from 'minio';
 
 export const s3Client = new Minio.Client({
-    endPoint: process.env.MINIO_URL,
+    endPoint: process.env.MINIO_URL ?? 'localhost',
     port: 9000,
     accessKey: 'ROOTUSER',
     secretKey: 'ROOTPASSWORD',
-    useSSL: true,
+    useSSL: process.env.NODE_ENV === 'production',
 });
 
 export const createBucketIfNotExists = async (bucketName: string) => {

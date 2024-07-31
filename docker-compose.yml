@@ -1,49 +1,49 @@
 version: '3.9'
 services:
-  storage:
-    image: docker.io/bitnami/minio:2024
-    ports:
-      - '9000:9000'
-      - '9001:9001'
-    volumes:
-      - 'minio_data:/bitnami/minio/data'
-    environment:
-      MINIO_ROOT_USER: ROOTUSER
-      MINIO_ROOT_PASSWORD: ROOTPASSWORD
-    container_name: storage
-  db:
-    image: postgres:13
-    container_name: db
-    ports:
-      - '5433:5432'
-    environment:
-      POSTGRES_DB: shop_db
-      POSTGRES_USER: shop_user
-      POSTGRES_PASSWORD: shop_password
-    volumes:
-      - 'postgres_data:/var/lib/postgresql/data'
-  web:
-    build: ./
-    volumes:
-      - ./:/app
-    ports:
-      - '3000:3000'
-    stdin_open: true
-    tty: true
-    environment:
-      MINIO_URL: storage
-      DATABASE_URL: postgresql://shop_user:shop_password@db:5433/shop_db?schema=public
-    container_name: web
-    depends_on:
-      - storage
-      - db
+    storage:
+        image: docker.io/bitnami/minio:2024
+        ports:
+            - '9000:9000'
+            - '9001:9001'
+        volumes:
+            - 'minio_data:/bitnami/minio/data'
+        environment:
+            MINIO_ROOT_USER: ROOTUSER
+            MINIO_ROOT_PASSWORD: ROOTPASSWORD
+        container_name: storage
+    db:
+        image: postgres:13
+        container_name: db
+        ports:
+            - '5433:5432'
+        environment:
+            POSTGRES_DB: shop_db
+            POSTGRES_USER: shop_user
+            POSTGRES_PASSWORD: shop_password
+        volumes:
+            - 'postgres_data:/var/lib/postgresql/data'
+    web:
+        build: ./
+        volumes:
+            - ./:/app
+        ports:
+            - '3000:3000'
+        stdin_open: true
+        tty: true
+        environment:
+            MINIO_URL: storage
+            DATABASE_URL: postgresql://shop_user:shop_password@db:5433/shop_db?schema=public
+        container_name: web
+        depends_on:
+            - storage
+            - db
 
 volumes:
-  minio_data:
-    driver: local
-  postgres_data:
+    minio_data:
+        driver: local
+    postgres_data:
 
 networks:
-  default:
-    name: shop
-    external: true
+    default:
+        name: shop
+        external: true
