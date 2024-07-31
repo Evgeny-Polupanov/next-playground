@@ -1,34 +1,41 @@
 {
-  "name": "next-playground",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "start:prod": "next lint ; next build ; next start"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.16.1",
-    "minio": "^8.0.1",
-    "next": "14.2.4",
-    "react": "^18",
-    "react-dom": "^18"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.4",
-    "husky": "^9.0.11",
-    "postcss": "^8",
-    "prisma": "^5.16.1",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
-  }
+    "name": "next-playground",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --turbo",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "start:prod": "next lint ; next build ; next start"
+    },
+    "dependencies": {
+        "@prisma/client": "^5.16.1",
+        "bcrypt": "^5.1.1",
+        "jose": "^5.6.3",
+        "minio": "^8.0.1",
+        "next": "14.2.4",
+        "react": "^18",
+        "react-dom": "^18",
+        "uuid": "^10.0.0",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.3.0",
+        "@commitlint/config-conventional": "^19.2.2",
+        "@tailwindcss/forms": "^0.5.7",
+        "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+        "@types/bcrypt": "^5.0.2",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "@types/uuid": "^10.0.0",
+        "eslint": "^8",
+        "eslint-config-next": "14.2.4",
+        "husky": "^9.0.11",
+        "postcss": "^8",
+        "prisma": "^5.16.1",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5"
+    }
 }
