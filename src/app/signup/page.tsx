@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     title: 'Registration',
 };
 
-export default async function AuthPage() {
+export default async function RegistrationPage() {
     return (
         <main className="m-auto">
             <h1 className="mb-8 text-3xl">Sign Up</h1>

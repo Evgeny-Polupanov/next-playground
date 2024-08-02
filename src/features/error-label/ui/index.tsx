@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const ErrorLabel: FC<{ error?: string }> = ({ error }) => {
+export const ErrorLabel: FC<{ error?: string | number }> = ({ error }) => {
     if (!error) {
         return null;
     }

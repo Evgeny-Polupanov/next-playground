@@ -2,12 +2,13 @@
 
 import { onCreateUser } from '../api';
 import { ErrorLabel, UploadImage } from '@/features';
-import { SubmitButton } from '@/shared';
+import { FormState, SubmitButton } from '@/shared';
 import Link from 'next/link';
-import { FC } from 'react';
+import { RedirectType, redirect } from 'next/navigation';
+import { FC, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
-const SignupFields: FC<{ state: Record<string, string> }> = ({ state }) => {
+const SignupFields: FC<{ state: FormState }> = ({ state }) => {
     const { pending } = useFormStatus();
 
     return (
@@ -21,7 +22,7 @@ const SignupFields: FC<{ state: Record<string, string> }> = ({ state }) => {
                 required
                 disabled={pending}
             />
-            <ErrorLabel error={state?.firstName} />
+            <ErrorLabel error={state.firstName} />
             <input
                 name="lastName"
                 className="bg-transparent"
@@ -31,7 +32,7 @@ const SignupFields: FC<{ state: Record<string, string> }> = ({ state }) => {
                 required
                 disabled={pending}
             />
-            <ErrorLabel error={state?.lastName} />
+            <ErrorLabel error={state.lastName} />
             <input
                 name="email"
                 className="bg-transparent"
@@ -40,7 +41,7 @@ const SignupFields: FC<{ state: Record<string, string> }> = ({ state }) => {
                 required
                 disabled={pending}
             />
-            <ErrorLabel error={state?.email} />
+            <ErrorLabel error={state.email} />
             <input
                 name="password"
                 className="bg-transparent"
@@ -49,7 +50,7 @@ const SignupFields: FC<{ state: Record<string, string> }> = ({ state }) => {
                 required
                 disabled={pending}
             />
-            <ErrorLabel error={state?.password} />
+            <ErrorLabel error={state.password} />
             <input
                 name="passwordConfirm"
                 className="bg-transparent"
@@ -58,7 +59,7 @@ const SignupFields: FC<{ state: Record<string, string> }> = ({ state }) => {
                 required
                 disabled={pending}
             />
-            <ErrorLabel error={state?.passwordConfirm} />
+            <ErrorLabel error={state.passwordConfirm} />
             <UploadImage />
             <textarea
                 name="bio"
@@ -67,13 +68,13 @@ const SignupFields: FC<{ state: Record<string, string> }> = ({ state }) => {
                 maxLength={255}
                 disabled={pending}
             />
-            <ErrorLabel error={state?.bio} />
+            <ErrorLabel error={state.bio} />
         </>
     );
 };
 
 export const SignupForm = () => {
-    const [state, action] = useFormState<any, FormData>(onCreateUser, {
+    const [state, action] = useFormState<FormState, FormData>(onCreateUser, {
         firstName: '',
         lastName: '',
         email: '',
@@ -83,12 +84,15 @@ export const SignupForm = () => {
         bio: '',
     });
 
+    useEffect(() => {
+        if (state.status === 201) {
+            alert('Success!');
+            redirect('/signin', RedirectType.push);
+        }
+    }, [state]);
+
     return (
-        <form
-            className="flex flex-col gap-4 w-96"
-            action={action}
-            method="POST"
-        >
+        <form className="flex flex-col gap-4 w-96" action={action}>
             <SignupFields state={state} />
             <div className="flex justify-between items-center">
                 <SubmitButton>Sign up</SubmitButton>

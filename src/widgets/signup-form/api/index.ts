@@ -1,9 +1,7 @@
 'use server';
 
-import { parseZodErrors } from '@/shared';
+import { FormState, parseZodErrors } from '@/shared';
 import bcrypt from 'bcrypt';
-import { redirect } from 'next/navigation';
-import { Stream } from 'stream';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
 import { createBucketIfNotExists, s3Client } from '~/lib/file-management';
@@ -39,14 +37,14 @@ const createUserSchema = z
         }
     });
 
-export const onCreateUser = async (_: any, data: FormData) => {
+export const onCreateUser = async (prevState: FormState, data: FormData) => {
     const checkedPayload = Object.fromEntries(data.entries());
     const state = createUserSchema.safeParse(checkedPayload);
     if (!state.success) {
         return parseZodErrors(state);
     }
 
-    const errors: Record<string, string> = {};
+    const errors: FormState = {};
 
     try {
         const existingUser = await prisma.user.findFirst({
@@ -64,7 +62,7 @@ export const onCreateUser = async (_: any, data: FormData) => {
 
         let avatarUrl = null;
         const avatar = data.get('image') as File | null;
-        if (avatar) {
+        if (avatar?.size) {
             await createBucketIfNotExists('avatars');
             avatarUrl = `${uuid()}.${avatar.name.split('.').reverse()[0]}`;
             const arrayBuffer = await avatar.arrayBuffer();
@@ -90,9 +88,9 @@ export const onCreateUser = async (_: any, data: FormData) => {
                 balance: 0,
             },
         });
+        return { status: 201 };
     } catch (e) {
         console.error(e);
-        return;
+        return prevState;
     }
-    redirect('/signin');
 };
