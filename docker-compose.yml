@@ -33,6 +33,7 @@ services:
         environment:
             MINIO_URL: storage
             DATABASE_URL: postgresql://shop_user:shop_password@db:5433/shop_db?schema=public
+            SECRET: secret
         container_name: web
         depends_on:
             - storage
