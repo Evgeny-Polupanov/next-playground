@@ -6,7 +6,7 @@ import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import prisma from '~/lib/prisma';
 
-const key = new TextEncoder().encode('secret');
+const key = new TextEncoder().encode(process.env.SECRET);
 
 const encrypt = async (payload: any) =>
     await new SignJWT(payload)
@@ -34,6 +34,7 @@ export const onLogin = async (prevState: FormState, data: FormData) => {
         }
 
         const user = {
+            id: existingUser.id,
             email: existingUser.email,
         };
 
