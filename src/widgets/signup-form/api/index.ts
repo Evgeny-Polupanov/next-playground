@@ -11,18 +11,22 @@ const createUserSchema = z
     .object({
         firstName: z
             .string()
+            .trim()
             .min(1, { message: 'First name must be at least 1 character long' })
             .max(40, { message: "First name can't exceed 40 characters" }),
         lastName: z
             .string()
+            .trim()
             .min(1, { message: 'Last name must be at least 1 character long' })
             .max(40, { message: "Last name can't exceed 40 characters" }),
         email: z.string().email({ message: 'Enter a valid email address' }),
         password: z
             .string()
+            .trim()
             .min(1, { message: 'Password must be at least 1 character long' }),
         passwordConfirm: z
             .string()
+            .trim()
             .min(1, { message: 'Password must be at least 1 character long' }),
         avatar: z.any().optional().nullable(),
         bio: z.string().optional().nullable(),
@@ -64,7 +68,7 @@ export const onCreateUser = async (prevState: FormState, data: FormData) => {
         const avatar = data.get('image') as File | null;
         if (avatar?.size) {
             await createBucketIfNotExists('avatars');
-            avatarUrl = `${uuid()}.${avatar.name.split('.').reverse()[0]}`;
+            avatarUrl = `${uuid()}.${avatar.name.split('.').pop()}`;
             const arrayBuffer = await avatar.arrayBuffer();
             await s3Client.putObject(
                 'avatars',
