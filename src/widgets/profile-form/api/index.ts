@@ -96,6 +96,9 @@ export const onSaveUser = async (prevState: FormState, data: FormData) => {
                     } else if (!newPassword || !newPasswordConfirm) {
                         errors.newPasswordConfirm =
                             'Enter a new password and its confirmation';
+                    } else if (newPassword !== newPasswordConfirm) {
+                        errors.newPasswordConfirm =
+                            "The new passwords don't match";
                     }
                 } else {
                     errors.password = 'Incorrect old password';
@@ -103,25 +106,24 @@ export const onSaveUser = async (prevState: FormState, data: FormData) => {
             }
         }
 
-        if (!avatar.size && data.get('isImageDirty')?.valueOf() === 'true') {
-            if (user.avatarUrl) {
-                await s3Client.removeObject('avatars', user.avatarUrl);
-                payload.avatarUrl = null;
-            }
-        }
-
-        if (avatar.size && data.get('isImageDirty')?.valueOf() === 'true') {
-            await createBucketIfNotExists('avatars');
+        if (data.get('isImageDirty')?.valueOf() === 'true') {
             if (user.avatarUrl) {
                 await s3Client.removeObject('avatars', user.avatarUrl);
             }
-            payload.avatarUrl = `${uuid()}.${avatar.name.split('.').pop()}`;
-            const arrayBuffer = await avatar.arrayBuffer();
-            await s3Client.putObject(
-                'avatars',
-                payload.avatarUrl,
-                Buffer.from(arrayBuffer),
-            );
+            if (!avatar.size) {
+                if (user.avatarUrl) {
+                    payload.avatarUrl = null;
+                }
+            } else {
+                await createBucketIfNotExists('avatars');
+                payload.avatarUrl = `${uuid()}.${avatar.name.split('.').pop()}`;
+                const arrayBuffer = await avatar.arrayBuffer();
+                await s3Client.putObject(
+                    'avatars',
+                    payload.avatarUrl,
+                    Buffer.from(arrayBuffer),
+                );
+            }
         }
 
         if (Object.keys(errors).length > 0) {
