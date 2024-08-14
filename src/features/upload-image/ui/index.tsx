@@ -4,8 +4,9 @@ import { Image } from '@/shared';
 import { ChangeEventHandler, FC, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 
-export const UploadImage: FC<{ defaultValue?: string }> = ({
+export const UploadImage: FC<{ defaultValue?: string; name?: string }> = ({
     defaultValue,
+    name = 'image',
 }) => {
     const imageRef = useRef<HTMLInputElement | null>(null);
     const isDirtyRef = useRef<HTMLInputElement | null>(null);
@@ -32,13 +33,13 @@ export const UploadImage: FC<{ defaultValue?: string }> = ({
     };
 
     const toggleImage = () => {
-        if (image && imageRef.current?.value) {
+        if (image && imageRef.current) {
             imageRef.current.value = '';
             setImage('');
         } else {
             imageRef.current?.click();
         }
-        isDirtyRef.current?.value && (isDirtyRef.current.value = 'true');
+        isDirtyRef.current && (isDirtyRef.current.value = 'true');
     };
 
     return (
@@ -54,13 +55,13 @@ export const UploadImage: FC<{ defaultValue?: string }> = ({
             <input
                 type="file"
                 hidden
-                name="image"
+                name={name}
                 accept="image/png, image/jpg"
                 ref={imageRef}
                 onChange={onChange}
             />
             <input type="hidden" name="isImageDirty" ref={isDirtyRef} />
-            <Image image={image} />
+            <Image image={image} alt="image" />
         </div>
     );
 };

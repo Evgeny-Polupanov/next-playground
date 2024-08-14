@@ -12,7 +12,8 @@ export const Image: FC<{ image: string | ArrayBuffer; alt?: string }> = ({
                     src={image as string}
                     alt={alt}
                     fill
-                    className="object-cover"
+                    sizes="auto, auto"
+                    className="object-contain w-auto h-auto"
                 />
             )}
         </div>

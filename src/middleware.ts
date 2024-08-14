@@ -2,7 +2,7 @@ import { getSession } from './shared';
 import { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-    const session = await getSession();
+    const session = await getSession(true);
 
     if (
         !session &&
