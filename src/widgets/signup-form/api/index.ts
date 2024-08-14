@@ -65,8 +65,8 @@ export const onCreateUser = async (prevState: FormState, data: FormData) => {
         );
 
         let avatarUrl = null;
-        const avatar = data.get('image') as File | null;
-        if (avatar?.size) {
+        const avatar = data.get('image') as File;
+        if (avatar.size) {
             await createBucketIfNotExists('avatars');
             avatarUrl = `${uuid()}.${avatar.name.split('.').pop()}`;
             const arrayBuffer = await avatar.arrayBuffer();

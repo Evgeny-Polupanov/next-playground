@@ -3,7 +3,7 @@
 import { FormState } from './types';
 import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
-import internal from 'stream';
+import { redirect } from 'next/navigation';
 
 export const parseZodErrors = (state: any) => {
     const errObj = state.error.format();
@@ -24,27 +24,22 @@ const decrypt = async (session: string) => {
     }
 };
 
-export const getSession = async () => {
+export const getSession = async (isForApi = false) => {
     const session = cookies().get('session')?.value;
     if (!session) {
-        return null;
+        if (isForApi) {
+            return null;
+        }
+        redirect('/signin');
     }
     const { payload } = await decrypt(session);
 
-    return payload;
-};
+    if (!payload) {
+        if (isForApi) {
+            return null;
+        }
+        redirect('/signin');
+    }
 
-export const getAvatarByFile = async (avatarFile: internal.Readable) => {
-    const avatar = await new Promise((resolve) => {
-        const chunks: Uint8Array[] = [];
-        avatarFile.on('data', (chunk) => {
-            chunks.push(chunk);
-        });
-        avatarFile.on('end', () => {
-            const result = Buffer.concat(chunks).toString('base64');
-            resolve(`data:image/jpeg;base64,${result}`);
-        });
-    });
-
-    return avatar as string;
+    return payload as { user: { id: string; email: string } };
 };

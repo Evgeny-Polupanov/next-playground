@@ -4,7 +4,7 @@ import { s3Client } from '~/lib/file-management';
 import prisma from '~/lib/prisma';
 
 export async function DELETE() {
-    const session = await getSession();
+    const session = await getSession(true);
 
     if (!session) {
         return new Response('Unauthorized', { status: 401 });
