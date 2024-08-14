@@ -6,7 +6,7 @@ import { UploadImage } from '@/features';
 import { FormState } from '@/shared';
 import { SubmitButton } from '@/shared';
 import Link from 'next/link';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
 interface UserFields {
