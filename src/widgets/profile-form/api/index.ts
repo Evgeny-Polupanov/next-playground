@@ -73,9 +73,15 @@ export const onSaveUser = async (prevState: FormState, data: FormData) => {
         const payload: Partial<User> = {
             firstName,
             lastName,
-            email,
             bio,
         };
+
+        const emailOwner = await prisma.user.findFirst({ where: { email }});
+        if (emailOwner && emailOwner.id !== user.id) {
+            errors.email = 'This email is already taken';
+        } else {
+            payload.email = email;
+        }
 
         if (oldPassword || newPassword || newPasswordConfirm) {
             if (!oldPassword) {

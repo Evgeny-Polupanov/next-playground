@@ -6,6 +6,7 @@ import { UploadImage } from '@/features';
 import { FormState } from '@/shared';
 import { SubmitButton } from '@/shared';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FC, useEffect, useRef } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
@@ -136,11 +137,53 @@ export const ProfileForm: FC<{
         }
     }, [state]);
 
+    const router = useRouter();
+
+    const logout = () => {
+        if (confirm('Do you really want to logout?')) {
+            fetch('/api/logout', {
+                method: 'POST',
+            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        return router.replace('/signin');
+                    }
+                })
+                .catch((e) => console.error(e));
+        }
+    };
+
+    const deleteProfile = () => {
+        if (confirm('Do you really want to delete your profile?')) {
+            fetch('/api/user', {
+                method: 'DELETE',
+            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        return router.replace('/signin');
+                    }
+                })
+                .catch((e) => console.error(e));
+        }
+    };
+
     return (
         <form
             action={action}
             className="flex flex-col items-center justify-between p-24 flex-grow"
         >
+            <div className="flex justify-end items-center gap-4 mb-4 max-w-5xl w-full">
+                <button type="button" className="border-2 p-2" onClick={logout}>
+                    Logout
+                </button>
+                <button
+                    type="button"
+                    className="border-2 p-2 text-red-500 border-red-500"
+                    onClick={deleteProfile}
+                >
+                    Delete profile
+                </button>
+            </div>
             <div className="z-10 w-full max-w-5xl items-start justify-between font-mono text-sm lg:flex">
                 <ProfileFields state={state} user={user} />
                 <div>

@@ -1,8 +1,13 @@
 import { getSession } from '@/shared';
 import { ProfileForm } from '@/widgets';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { s3Client } from '~/lib/file-management';
 import prisma from '~/lib/prisma';
+
+export const metadata: Metadata = {
+    title: 'Profile',
+};
 
 const getData = async () => {
     const session = await getSession();
