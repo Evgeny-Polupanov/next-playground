@@ -28,20 +28,20 @@ export default async function Home() {
 
     return (
         <div className="flex flex-col items-center justify-between p-24 flex-grow">
-            <div className="z-10 w-full max-w-5xl items-end justify-between font-mono text-sm lg:flex">
+            <div className="w-full max-w-5xl items-end justify-between font-mono text-sm flex">
                 <div className="w-56">
-                    <div className="fixed left-0 top-0 w-full h-32 mb-4 border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                    <div className="h-32 mb-4 border-gray-300 p-4 rounded-xl border bg-zinc-800/30">
                         <code className="font-mono font-bold flex flex-col items-center justify-between h-full">
                             <p className="text-center text-4xl">$</p>
                             <p className="text-center text-2xl">{balance}</p>
                         </code>
                     </div>
-                    <div className="fixed left-0 top-0 w-full border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+                    <div className="p-4 border-gray-300 bg-zinc-800/30 rounded-xl border">
                         Hello,&nbsp;
                         <code className="font-mono font-bold">{firstName}</code>
                     </div>
                 </div>
-                <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
+                <div className="h-48 flex items-end justify-center">
                     <Image image={avatar || '/avatar.jpg'} alt="avatar" />
                 </div>
             </div>

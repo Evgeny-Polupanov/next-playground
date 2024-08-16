@@ -23,13 +23,13 @@ const createUserSchema = z
         password: z
             .string()
             .trim()
-            .min(1, { message: 'Password must be at least 1 character long' }),
-        passwordConfirm: z
-            .string()
-            .trim()
-            .min(1, { message: 'Password must be at least 1 character long' }),
-        avatar: z.any().optional().nullable(),
-        bio: z.string().optional().nullable(),
+            .regex(
+                /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                'Password must be at least 8 characters, at least one letter and one number',
+            ),
+        passwordConfirm: z.string().trim(),
+        avatar: z.any().nullable(),
+        bio: z.string(),
     })
     .superRefine(({ password, passwordConfirm }, ctx) => {
         if (password !== passwordConfirm) {
@@ -88,7 +88,7 @@ export const onCreateUser = async (prevState: FormState, data: FormData) => {
                 email: data.get('email')?.toString() ?? '',
                 password: hashedPassword,
                 avatarUrl,
-                bio: data.get('bio')?.toString() ?? '',
+                bio: data.get('bio')?.toString().trim() ?? '',
                 balance: 0,
             },
         });
