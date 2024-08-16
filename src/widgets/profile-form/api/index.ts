@@ -23,10 +23,10 @@ const saveUserSchema = z.object({
         .max(40, { message: "Last name can't exceed 40 characters" }),
     email: z.string().email({ message: 'Enter a valid email address' }),
     password: z.string(),
-    newPassword: z.string(),
-    newPasswordConfirm: z.string(),
-    avatar: z.any().optional().nullable(),
-    bio: z.string().optional(),
+    newPassword: z.string().trim(),
+    newPasswordConfirm: z.string().trim(),
+    avatar: z.any().nullable(),
+    bio: z.string(),
 });
 
 export const onSaveUser = async (prevState: FormState, data: FormData) => {
@@ -59,7 +59,7 @@ export const onSaveUser = async (prevState: FormState, data: FormData) => {
         const firstName = data.get('firstName')?.toString();
         const lastName = data.get('lastName')?.toString();
         const email = data.get('email')?.toString();
-        const bio = data.get('bio')?.toString() ?? '';
+        const bio = data.get('bio')?.toString().trim() ?? '';
 
         const oldPassword = data.get('password')?.toString().trim();
         const newPassword = data.get('newPassword')?.toString().trim();
@@ -76,7 +76,7 @@ export const onSaveUser = async (prevState: FormState, data: FormData) => {
             bio,
         };
 
-        const emailOwner = await prisma.user.findFirst({ where: { email }});
+        const emailOwner = await prisma.user.findFirst({ where: { email } });
         if (emailOwner && emailOwner.id !== user.id) {
             errors.email = 'This email is already taken';
         } else {
@@ -94,6 +94,14 @@ export const onSaveUser = async (prevState: FormState, data: FormData) => {
                 );
                 if (isValid) {
                     if (
+                        newPassword &&
+                        !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(
+                            newPassword,
+                        )
+                    ) {
+                        errors.newPassword =
+                            'Password must be at least 8 characters, at least one letter and one number';
+                    } else if (
                         newPassword &&
                         newPasswordConfirm &&
                         newPassword === newPasswordConfirm
