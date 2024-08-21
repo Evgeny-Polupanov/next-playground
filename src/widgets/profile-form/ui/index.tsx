@@ -1,10 +1,8 @@
 'use client';
 
 import { onSaveUser } from '../api';
-import { ErrorLabel } from '@/features';
-import { UploadImage } from '@/features';
-import { FormState } from '@/shared';
-import { SubmitButton } from '@/shared';
+import { ErrorLabel, UploadImage } from '@/features';
+import { FormState, SubmitButton } from '@/shared';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FC, useEffect, useRef } from 'react';

@@ -15,13 +15,13 @@ const getData = async () => {
         redirect('/signin');
     }
 
-    const { avatarUrl } = user;
+    const { avatarUrl, isAdmin } = user;
 
     const avatar = avatarUrl
         ? await s3Client.presignedGetObject('avatars', avatarUrl)
         : '';
 
-    return { avatar };
+    return { avatar, isAdmin };
 };
 
 export default async function RootLayout({
@@ -29,11 +29,11 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const { avatar } = await getData();
+    const { avatar, isAdmin } = await getData();
 
     return (
         <>
-            <Header avatar={avatar} />
+            <Header avatar={avatar} isAdmin={isAdmin} />
             <main className="flex-grow">{children}</main>
             <Footer />
         </>

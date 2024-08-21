@@ -3,3 +3,7 @@ export * from './signin-form/ui';
 export * from './header/ui';
 export * from './footer/ui';
 export * from './profile-form/ui';
+export * from './admin-table/ui';
+export * from './tabs/ui';
+export * from './user-admin-form/ui';
+export * from './table-edit-button/ui';

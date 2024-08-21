@@ -2,10 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 
-export const Header: FC<{ avatar: string }> = ({ avatar }) => {
+export const Header: FC<{ avatar: string; isAdmin: boolean }> = ({
+    avatar,
+    isAdmin,
+}) => {
     return (
         <header className="h-24 bg-zinc-800 flex items-center justify-between gap-4 px-8">
-            <Link href="/">
+            <Link href={isAdmin ? '/admin' : '/'}>
                 <Image
                     src="/logo.png"
                     width={75}

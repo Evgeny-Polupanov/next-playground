@@ -14,6 +14,7 @@ export const Image: FC<{ image: string | ArrayBuffer; alt?: string }> = ({
                     fill
                     sizes="auto, auto"
                     className="object-contain w-auto h-auto"
+                    priority
                 />
             )}
         </div>
