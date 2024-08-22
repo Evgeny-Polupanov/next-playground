@@ -3,7 +3,9 @@ import { AdminTable, TableEditButton, UserAdminForm } from '@/widgets';
 import prisma from '~/lib/prisma';
 
 const getData = async () => {
-    const users: SafeUser[] = (await prisma.user.findMany()).map((u) => ({
+    const users: SafeUser[] = (
+        await prisma.user.findMany({ orderBy: { id: 'desc' } })
+    ).map((u) => ({
         id: u.id,
         firstName: u.firstName,
         lastName: u.lastName,

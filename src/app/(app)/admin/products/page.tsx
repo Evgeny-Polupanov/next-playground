@@ -1,7 +1,7 @@
 import prisma from '~/lib/prisma';
 
 const getData = async () => {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({ orderBy: { id: 'desc' } });
 
     return { products };
 };
