@@ -44,7 +44,7 @@ const ProfileFields: FC<{ state: FormState; user: UserFields }> = ({
             <label>Personal data</label>
             <input
                 name="firstName"
-                className="bg-transparent"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
                 type="text"
                 maxLength={40}
                 placeholder="Enter your first name"
@@ -55,7 +55,7 @@ const ProfileFields: FC<{ state: FormState; user: UserFields }> = ({
             <ErrorLabel error={state.firstName} />
             <input
                 name="lastName"
-                className="bg-transparent"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
                 type="text"
                 maxLength={40}
                 placeholder="Enter your last name"
@@ -66,7 +66,7 @@ const ProfileFields: FC<{ state: FormState; user: UserFields }> = ({
             <ErrorLabel error={state.lastName} />
             <input
                 name="email"
-                className="bg-transparent"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
                 type="email"
                 placeholder="Enter your email"
                 defaultValue={user.email}
@@ -77,7 +77,7 @@ const ProfileFields: FC<{ state: FormState; user: UserFields }> = ({
             <label>Password</label>
             <input
                 name="password"
-                className="bg-transparent"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
                 type="password"
                 placeholder="Enter your current password"
                 disabled={pending}
@@ -86,7 +86,7 @@ const ProfileFields: FC<{ state: FormState; user: UserFields }> = ({
             <ErrorLabel error={state.password} />
             <input
                 name="newPassword"
-                className="bg-transparent"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
                 type="password"
                 placeholder="Come up with a new password"
                 disabled={pending}
@@ -95,7 +95,7 @@ const ProfileFields: FC<{ state: FormState; user: UserFields }> = ({
             <ErrorLabel error={state.newPassword} />
             <input
                 name="newPasswordConfirm"
-                className="bg-transparent"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
                 type="password"
                 placeholder="Confirm your new password"
                 disabled={pending}
@@ -105,7 +105,7 @@ const ProfileFields: FC<{ state: FormState; user: UserFields }> = ({
             <label>Bio</label>
             <textarea
                 name="bio"
-                className="bg-transparent resize-none"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
                 placeholder="Enter your bio (optional)"
                 maxLength={255}
                 disabled={pending}
@@ -171,12 +171,16 @@ export const ProfileForm: FC<{
             className="flex flex-col items-center justify-between p-24 flex-grow"
         >
             <div className="flex justify-end items-center gap-4 mb-4 max-w-5xl w-full">
-                <button type="button" className="border-2 p-2" onClick={logout}>
+                <button
+                    type="button"
+                    className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    onClick={logout}
+                >
                     Logout
                 </button>
                 <button
                     type="button"
-                    className="border-2 p-2 text-red-500 border-red-500"
+                    className="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
                     onClick={deleteProfile}
                 >
                     Delete profile
@@ -185,7 +189,7 @@ export const ProfileForm: FC<{
             <div className="z-10 w-full max-w-5xl items-start justify-between font-mono text-sm lg:flex">
                 <ProfileFields state={state} user={user} />
                 <div>
-                    <label>Avatar</label>
+                    <label className="mb-4 block">Avatar</label>
                     <UploadImage defaultValue={user.avatar} name="avatar" />
                 </div>
             </div>
