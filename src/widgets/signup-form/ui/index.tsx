@@ -2,7 +2,7 @@
 
 import { onCreateUser } from '../api';
 import { ErrorLabel, UploadImage } from '@/features';
-import { FormState, SubmitButton } from '@/shared';
+import { FormState, SubmitButton, inputClassName } from '@/shared';
 import Link from 'next/link';
 import { RedirectType, redirect } from 'next/navigation';
 import { FC, useEffect } from 'react';
@@ -15,7 +15,7 @@ const SignupFields: FC<{ state: FormState }> = ({ state }) => {
         <>
             <input
                 name="firstName"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className={inputClassName}
                 type="text"
                 maxLength={40}
                 placeholder="Enter your first name"
@@ -25,7 +25,7 @@ const SignupFields: FC<{ state: FormState }> = ({ state }) => {
             <ErrorLabel error={state.firstName} />
             <input
                 name="lastName"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className={inputClassName}
                 type="text"
                 maxLength={40}
                 placeholder="Enter your last name"
@@ -35,7 +35,7 @@ const SignupFields: FC<{ state: FormState }> = ({ state }) => {
             <ErrorLabel error={state.lastName} />
             <input
                 name="email"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className={inputClassName}
                 type="email"
                 placeholder="Enter your email"
                 required
@@ -44,7 +44,7 @@ const SignupFields: FC<{ state: FormState }> = ({ state }) => {
             <ErrorLabel error={state.email} />
             <input
                 name="password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className={inputClassName}
                 type="password"
                 placeholder="Come up with the password"
                 required
@@ -53,7 +53,7 @@ const SignupFields: FC<{ state: FormState }> = ({ state }) => {
             <ErrorLabel error={state.password} />
             <input
                 name="passwordConfirm"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className={inputClassName}
                 type="password"
                 placeholder="Confirm your password"
                 required
@@ -63,7 +63,7 @@ const SignupFields: FC<{ state: FormState }> = ({ state }) => {
             <UploadImage />
             <textarea
                 name="bio"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
+                className={inputClassName}
                 placeholder="Enter your bio (optional)"
                 maxLength={255}
                 disabled={pending}

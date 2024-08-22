@@ -2,7 +2,7 @@
 
 import { onLogin } from '../api';
 import { ErrorLabel } from '@/features';
-import { FormState, SubmitButton } from '@/shared';
+import { FormState, SubmitButton, inputClassName } from '@/shared';
 import Link from 'next/link';
 import { RedirectType, redirect } from 'next/navigation';
 import { FC, useEffect } from 'react';
@@ -15,7 +15,7 @@ const SigninFields: FC<{ state: FormState }> = ({ state }) => {
         <>
             <input
                 name="email"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
+                className={inputClassName}
                 type="email"
                 placeholder="Enter your email"
                 required
@@ -23,7 +23,7 @@ const SigninFields: FC<{ state: FormState }> = ({ state }) => {
             />
             <input
                 name="password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
+                className={inputClassName}
                 type="password"
                 placeholder="Enter your password"
                 required

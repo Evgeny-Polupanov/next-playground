@@ -3,7 +3,12 @@
 import { onAdminSaveUser } from '../api';
 import { SafeUser } from '@/entities';
 import { ErrorLabel } from '@/features';
-import { FormState, SubmitButton, useModalContext } from '@/shared';
+import {
+    FormState,
+    SubmitButton,
+    inputClassName,
+    useModalContext,
+} from '@/shared';
 import { FC, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
@@ -34,7 +39,7 @@ const UserAdminFields: FC<{
                     type="text"
                     name="firstName"
                     id="firstName"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    className={inputClassName}
                     placeholder="Type the first name"
                     required
                     defaultValue={user.firstName}
@@ -53,7 +58,7 @@ const UserAdminFields: FC<{
                     type="text"
                     name="lastName"
                     id="lastName"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    className={inputClassName}
                     placeholder="Type the last name"
                     required
                     defaultValue={user.lastName}
@@ -72,7 +77,7 @@ const UserAdminFields: FC<{
                     type="email"
                     name="email"
                     id="email"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    className={inputClassName}
                     placeholder="Type the email"
                     required
                     defaultValue={user.email}
@@ -90,7 +95,7 @@ const UserAdminFields: FC<{
                 <textarea
                     name="bio"
                     id="bio"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 resize-none"
+                    className={inputClassName}
                     placeholder="Type the bio"
                     defaultValue={user.bio}
                     disabled={pending}
@@ -108,7 +113,7 @@ const UserAdminFields: FC<{
                     type="number"
                     name="balance"
                     id="balance"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    className={inputClassName}
                     placeholder="Type the balance"
                     required
                     defaultValue={user.balance}

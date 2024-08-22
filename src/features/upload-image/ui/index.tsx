@@ -1,6 +1,6 @@
 'use client';
 
-import { Image } from '@/shared';
+import { Image, primaryButtonClassName } from '@/shared';
 import { ChangeEventHandler, FC, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 
@@ -48,7 +48,7 @@ export const UploadImage: FC<{ defaultValue?: string; name?: string }> = ({
                 type="button"
                 onClick={toggleImage}
                 disabled={pending}
-                className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className={primaryButtonClassName}
             >
                 {image ? 'Remove image' : 'Upload image'}
             </button>
