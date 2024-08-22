@@ -1,6 +1,6 @@
 'use client';
 
-import { Image, primaryButtonClassName } from '@/shared';
+import { Image, dangerButtonClassName, primaryButtonClassName } from '@/shared';
 import { ChangeEventHandler, FC, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 
@@ -48,7 +48,9 @@ export const UploadImage: FC<{ defaultValue?: string; name?: string }> = ({
                 type="button"
                 onClick={toggleImage}
                 disabled={pending}
-                className={primaryButtonClassName}
+                className={
+                    image ? dangerButtonClassName : primaryButtonClassName
+                }
             >
                 {image ? 'Remove image' : 'Upload image'}
             </button>
