@@ -35,7 +35,11 @@ export default async function Admin() {
     const { users } = await getData();
 
     return (
-        <AdminTable headers={headers}>
+        <AdminTable
+            headers={headers}
+            length={users.length}
+            placeholder="No Users"
+        >
             {users.map((u) => (
                 <tr
                     key={u.id}
