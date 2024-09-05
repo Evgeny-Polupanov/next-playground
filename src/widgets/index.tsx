@@ -7,3 +7,4 @@ export * from './admin-table/ui';
 export * from './tabs/ui';
 export * from './user-admin-form/ui';
 export * from './table-edit-button/ui';
+export * from './category-admin-form/ui';

@@ -7,6 +7,7 @@ import { z } from 'zod';
 import prisma from '~/lib/prisma';
 
 const saveUserSchema = z.object({
+    id: z.string().uuid('ID is incorrect'),
     firstName: z
         .string()
         .trim()

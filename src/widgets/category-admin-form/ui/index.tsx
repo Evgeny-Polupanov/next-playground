@@ -1,7 +1,6 @@
 'use client';
 
-import { onAdminSaveUser } from '../api';
-import { SafeUser } from '@/entities';
+import { onAdminSaveCategory } from '../api';
 import { ErrorLabel } from '@/features';
 import {
     FormState,
@@ -9,13 +8,14 @@ import {
     inputClassName,
     useModalContext,
 } from '@/shared';
+import { Category } from '@prisma/client';
 import { FC, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
 const CategoryAdminFields: FC<{
-    user: SafeUser;
+    category: Category;
     state: FormState;
-}> = ({ user, state }) => {
+}> = ({ category, state }) => {
     const { pending } = useFormStatus();
     const close = useModalContext();
 
@@ -42,7 +42,7 @@ const CategoryAdminFields: FC<{
                     className={inputClassName}
                     placeholder="Type the first name"
                     required
-                    defaultValue={user.firstName}
+                    defaultValue={category.firstName}
                     disabled={pending}
                 />
                 <ErrorLabel error={state.firstName} />
@@ -144,20 +144,23 @@ const CategoryAdminFields: FC<{
     );
 };
 
-export const CategoryAdminForm: FC<{ user: SafeUser }> = ({ user }) => {
-    const [state, action] = useFormState<FormState, FormData>(onAdminSaveUser, {
-        firstName: '',
-        lastName: '',
-        email: '',
-        bio: '',
-        balance: '',
-    });
+export const CategoryAdminForm: FC<{ category: Category }> = ({ category }) => {
+    const [state, action] = useFormState<FormState, FormData>(
+        onAdminSaveCategory,
+        {
+            firstName: '',
+            lastName: '',
+            email: '',
+            bio: '',
+            balance: '',
+        },
+    );
 
     return (
         <form action={action} className="px-4 pb-4 md:px-5 md:pb-5">
-            <input type="hidden" name="id" value={user.id} />
-            <CategoryAdminFields user={user} state={state} />
-            <SubmitButton>Save User</SubmitButton>
+            <input type="hidden" name="id" value={category.id} />
+            <CategoryAdminFields category={category} state={state} />
+            <SubmitButton>Save Category</SubmitButton>
         </form>
     );
 };

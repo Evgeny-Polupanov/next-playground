@@ -1,4 +1,4 @@
-import { AdminTable, TableEditButton } from '@/widgets';
+import { AdminTable, CategoryAdminForm, TableEditButton } from '@/widgets';
 import prisma from '~/lib/prisma';
 
 const getData = async () => {
@@ -34,7 +34,7 @@ export default async function CategoriesAdmin() {
                     <td className="px-6 py-4">{c.title}</td>
                     <td className="px-6 py-4">{c.imageUrl}</td>
                     <TableEditButton name="Category">
-                        {/* <UserAdminForm user={c} /> */}
+                        <CategoryAdminForm category={c} />
                     </TableEditButton>
                 </tr>
             ))}
