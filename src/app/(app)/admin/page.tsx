@@ -58,9 +58,11 @@ export default async function Admin() {
                     <td className="px-6 py-4">{u.bio}</td>
                     <td className="px-6 py-4">{u.balance}</td>
                     <td className="px-6 py-4">{u.isAdmin ? 'Yes' : 'No'}</td>
-                    <TableEditButton name="User">
-                        <UserAdminForm user={u} />
-                    </TableEditButton>
+                    <td className="px-6 py-4">
+                        <TableEditButton name="User">
+                            <UserAdminForm user={u} />
+                        </TableEditButton>
+                    </td>
                 </tr>
             ))}
         </AdminTable>

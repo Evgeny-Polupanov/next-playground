@@ -1,4 +1,5 @@
 import { AdminTable, CategoryAdminForm, TableEditButton } from '@/widgets';
+import React from 'react';
 import prisma from '~/lib/prisma';
 
 const getData = async () => {
@@ -15,29 +16,38 @@ export default async function CategoriesAdmin() {
     const { categories } = await getData();
 
     return (
-        <AdminTable
-            headers={headers}
-            length={categories.length}
-            placeholder="No Categories"
-        >
-            {categories.map((c) => (
-                <tr
-                    key={c.id}
-                    className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-                >
-                    <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        <>
+            <div className="flex justify-end px-6 py-4">
+                <TableEditButton name="Category" isNew>
+                    <CategoryAdminForm />
+                </TableEditButton>
+            </div>
+            <AdminTable
+                headers={headers}
+                length={categories.length}
+                placeholder="No Categories"
+            >
+                {categories.map((c) => (
+                    <tr
+                        key={c.id}
+                        className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
                     >
-                        {c.id}
-                    </th>
-                    <td className="px-6 py-4">{c.title}</td>
-                    <td className="px-6 py-4">{c.imageUrl}</td>
-                    <TableEditButton name="Category">
-                        <CategoryAdminForm category={c} />
-                    </TableEditButton>
-                </tr>
-            ))}
-        </AdminTable>
+                        <th
+                            scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                            {c.id}
+                        </th>
+                        <td className="px-6 py-4">{c.title}</td>
+                        <td className="px-6 py-4">{c.imageUrl}</td>
+                        <td className="px-6 py-4">
+                            <TableEditButton name="Category">
+                                <CategoryAdminForm category={c} />
+                            </TableEditButton>
+                        </td>
+                    </tr>
+                ))}
+            </AdminTable>
+        </>
     );
 }

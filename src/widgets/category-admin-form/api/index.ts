@@ -1,20 +1,19 @@
 'use server';
 
 import { FormState, parseZodErrors } from '@/shared';
-import { User } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
+import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
+import { createBucketIfNotExists, s3Client } from '~/lib/file-management';
 import prisma from '~/lib/prisma';
 
 const saveCategorySchema = z.object({
-    id: z.string().uuid('ID is incorrect').nullable(),
     title: z
         .string()
         .trim()
         .min(1, { message: 'Title must be at least 1 character long' })
         .max(255, { message: "Title can't exceed 255 characters" }),
     image: z.any().nullable(),
-    productIds: z.array(z.string().uuid('ID is incorrect')),
 });
 
 export const onAdminSaveCategory = async (
@@ -31,29 +30,39 @@ export const onAdminSaveCategory = async (
         return parseZodErrors(state);
     }
 
-    const errors: FormState = {};
+    const id = data.get('id')?.toString();
+
+    let imageUrl = null;
+    const image = data.get('image') as File;
+    if (image.size) {
+        await createBucketIfNotExists('categories');
+        imageUrl = `${uuid()}.${image.name.split('.').pop()}`;
+        const arrayBuffer = await image.arrayBuffer();
+        await s3Client.putObject(
+            'categories',
+            imageUrl,
+            Buffer.from(arrayBuffer),
+        );
+    }
 
     try {
-        // const id = data.get('id')?.toString();
-        // const firstName = data.get('firstName')?.toString();
-        // const lastName = data.get('lastName')?.toString();
-        // const bio = data.get('bio')?.toString().trim() ?? '';
-        // const balance = +data.get('balance')?.valueOf()!;
-        // const isAdmin = data.get('isAdmin')?.toString() === 'on';
-        // const payload: Partial<User> = {
-        //     firstName,
-        //     lastName,
-        //     bio,
-        //     isAdmin,
-        //     balance,
-        // };
-        // if (Object.keys(errors).length > 0) {
-        //     return errors;
-        // }
-        // await prisma.user.update({
-        //     data: payload,
-        //     where: { id },
-        // });
+        const title = data.get('title')?.toString() ?? '';
+        if (id) {
+            await prisma.category.update({
+                data: {
+                    title,
+                    imageUrl,
+                },
+                where: { id },
+            });
+        } else {
+            await prisma.category.create({
+                data: {
+                    title,
+                    imageUrl,
+                },
+            });
+        }
     } catch (e) {
         console.error(e);
         return prevState;
