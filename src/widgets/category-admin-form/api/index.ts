@@ -32,17 +32,25 @@ export const onAdminSaveCategory = async (
 
     const id = data.get('id')?.toString();
 
-    let imageUrl = null;
+    let imageUrl;
     const image = data.get('image') as File;
-    if (image.size) {
-        await createBucketIfNotExists('categories');
-        imageUrl = `${uuid()}.${image.name.split('.').pop()}`;
-        const arrayBuffer = await image.arrayBuffer();
-        await s3Client.putObject(
-            'categories',
-            imageUrl,
-            Buffer.from(arrayBuffer),
-        );
+    if (data.get('isImageDirty')?.valueOf() === 'true') {
+        const category = await prisma.category.findFirst({ where: { id } });
+        if (category?.imageUrl) {
+            await s3Client.removeObject('categories', category.imageUrl);
+        }
+        if (!image.size) {
+            imageUrl = null;
+        } else {
+            await createBucketIfNotExists('categories');
+            imageUrl = `${uuid()}.${image.name.split('.').pop()}`;
+            const arrayBuffer = await image.arrayBuffer();
+            await s3Client.putObject(
+                'categories',
+                imageUrl,
+                Buffer.from(arrayBuffer),
+            );
+        }
     }
 
     try {

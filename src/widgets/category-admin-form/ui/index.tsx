@@ -9,7 +9,7 @@ import {
     useModalContext,
 } from '@/shared';
 import { Category } from '@prisma/client';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
 const CategoryAdminFields: FC<{
@@ -18,6 +18,7 @@ const CategoryAdminFields: FC<{
 }> = ({ category, state }) => {
     const { pending } = useFormStatus();
     const close = useModalContext();
+    const [defaultImage, setDefaultImage] = useState('');
 
     useEffect(() => {
         if (state.status === 200) {
@@ -25,6 +26,17 @@ const CategoryAdminFields: FC<{
             close?.();
         }
     }, [state, close]);
+
+    useEffect(() => {
+        if (category) {
+            fetch(`/api/category/${category.id}/image`)
+                .then((res) => res.json())
+                .then((image) => {
+                    setDefaultImage(image.url)
+                })
+                .catch((err) => console.error(err));
+        }
+    }, [category]);
 
     return (
         <div className="grid gap-4 my-4 py-4 border-y rounded-t dark:border-gray-600">
@@ -54,7 +66,7 @@ const CategoryAdminFields: FC<{
                 >
                     Image
                 </label>
-                <UploadImage name="image" />
+                <UploadImage name="image" value={defaultImage} />
             </div>
         </div>
     );
