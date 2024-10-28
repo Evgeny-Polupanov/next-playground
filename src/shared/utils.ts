@@ -41,5 +41,5 @@ export const getSession = async (isForApi = false) => {
         redirect('/signin');
     }
 
-    return payload as { user: { id: string; email: string } };
+    return payload as { user: { id: string; email: string; isAdmin: boolean } };
 };

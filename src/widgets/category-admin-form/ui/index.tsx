@@ -5,6 +5,7 @@ import { ErrorLabel, UploadImage } from '@/features';
 import {
     FormState,
     SubmitButton,
+    dangerButtonClassName,
     inputClassName,
     useModalContext,
 } from '@/shared';
@@ -32,7 +33,7 @@ const CategoryAdminFields: FC<{
             fetch(`/api/category/${category.id}/image`)
                 .then((res) => res.json())
                 .then((image) => {
-                    setDefaultImage(image.url)
+                    setDefaultImage(image.url);
                 })
                 .catch((err) => console.error(err));
         }
@@ -82,11 +83,41 @@ export const CategoryAdminForm: FC<{ category?: Category }> = ({
         },
     );
 
+    const close = useModalContext();
+
+    const openDeleteConfirm = () => {
+        const isSure = confirm(
+            'Are you sure you want to delete this category?',
+        );
+        if (isSure && category?.id && close) {
+            fetch(`/api/category/${category.id}`, {
+                method: 'DELETE',
+            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        close();
+                    }
+                })
+                .catch((e) => console.error(e));
+        }
+    };
+
     return (
         <form action={action} className="px-4 pb-4 md:px-5 md:pb-5">
             {category && <input type="hidden" name="id" value={category.id} />}
             <CategoryAdminFields category={category} state={state} />
-            <SubmitButton>Save Category</SubmitButton>
+            <div className="flex justify-between">
+                <SubmitButton>Save Category</SubmitButton>
+                {category?.id && (
+                    <button
+                        type="button"
+                        className={dangerButtonClassName}
+                        onClick={openDeleteConfirm}
+                    >
+                        Delete Category
+                    </button>
+                )}
+            </div>
         </form>
     );
 };
