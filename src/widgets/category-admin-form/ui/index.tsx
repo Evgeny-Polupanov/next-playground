@@ -61,10 +61,7 @@ const CategoryAdminFields: FC<{
                 <ErrorLabel error={state.title} />
             </div>
             <div>
-                <label
-                    htmlFor="title"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Image
                 </label>
                 <UploadImage name="image" value={defaultImage} />

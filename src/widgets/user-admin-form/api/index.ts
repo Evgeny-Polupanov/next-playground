@@ -23,7 +23,7 @@ const saveUserSchema = z.object({
     balance: z
         .number()
         .int()
-        .min(0, 'Balance must be greater or equal to zero'),
+        .min(0, 'Balance must be greater than or equal to zero'),
 });
 
 export const onAdminSaveUser = async (prevState: FormState, data: FormData) => {

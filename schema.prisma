@@ -1,79 +1,79 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model File {
-    id String @id @default(uuid())
-    bucket String
-    fileName String @unique
-    originalName String
-    createdAt DateTime @default(now())
-    size Int
+  id           String   @id @default(uuid())
+  bucket       String
+  fileName     String   @unique
+  originalName String
+  createdAt    DateTime @default(now())
+  size         Int
 }
 
 model Category {
-    id String @id @default(uuid())
-    products Product[] @relation()
-    title String @db.VarChar(255)
-    imageUrl String?
+  id       String    @id @default(uuid())
+  products Product[] @relation()
+  title    String    @db.VarChar(255)
+  imageUrl String?
 }
 
 model Product {
-    id String @id @default(uuid())
-    title String @db.VarChar(255)
-    description String @db.VarChar(255)
-    imageUrl String?
-    price Int
-    count Int
-    category Category? @relation(fields: [categoryId], references: [id])
-    categoryId String
+  id          String    @id @default(uuid())
+  title       String    @db.VarChar(255)
+  description String    @db.VarChar(255)
+  imageUrl    String?
+  price       Int
+  count       Int
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
 }
 
 model CartProduct {
-    productId String @id
-    count Int
-    cart Cart @relation(fields: [productId], references: [userId])
-    invoices Invoice[]
+  productId String    @id
+  count     Int
+  cart      Cart      @relation(fields: [productId], references: [userId])
+  invoices  Invoice[]
 }
 
 model Cart {
-    user User @relation(fields: [userId], references: [id])
-    userId String @id
-    cartProducts CartProduct[]
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String        @id
+  cartProducts CartProduct[]
 }
 
 model User {
-    id String @id @default(uuid())
-    firstName String @db.VarChar(40)
-    lastName String @db.VarChar(40)
-    email String @unique
-    password String
-    avatarUrl String?
-    bio String
-    balance Int
-    isAdmin Boolean @default(false)
-    cart Cart?
-    invoices Invoice[]
-    notifications Notification[]
+  id            String         @id @default(uuid())
+  firstName     String         @db.VarChar(40)
+  lastName      String         @db.VarChar(40)
+  email         String         @unique
+  password      String
+  avatarUrl     String?
+  bio           String
+  balance       Int
+  isAdmin       Boolean        @default(false)
+  cart          Cart?
+  invoices      Invoice[]
+  notifications Notification[]
 }
 
 model Invoice {
-    id String @id @default(uuid())
-    user User @relation(fields: [userId], references: [id])
-    userId String
-    cartProducts CartProduct[]
-    total Int
+  id           String        @id @default(uuid())
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String
+  cartProducts CartProduct[]
+  total        Int
 }
 
 model Notification {
-    id String @id @default(uuid())
-    user User @relation(fields: [userId], references: [id])
-    userId String
-    read Boolean @default(false)
-    content String
+  id      String  @id @default(uuid())
+  user    User    @relation(fields: [userId], references: [id])
+  userId  String
+  read    Boolean @default(false)
+  content String
 }
