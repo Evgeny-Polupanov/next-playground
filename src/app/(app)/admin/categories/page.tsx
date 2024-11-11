@@ -5,12 +5,15 @@ import prisma from '~/lib/prisma';
 const getData = async () => {
     const categories = await prisma.category.findMany({
         orderBy: { id: 'desc' },
+        include: {
+            _count: { select: { products: true } },
+        },
     });
 
     return { categories };
 };
 
-const headers = ['ID', 'Title', 'Image URL', ''];
+const headers = ['ID', 'Title', 'Image URL', 'Products Count', ''];
 
 export default async function CategoriesAdmin() {
     const { categories } = await getData();
@@ -40,6 +43,7 @@ export default async function CategoriesAdmin() {
                         </th>
                         <td className="px-6 py-4">{c.title}</td>
                         <td className="px-6 py-4">{c.imageUrl}</td>
+                        <td className="px-6 py-4">{c._count.products}</td>
                         <td className="px-6 py-4">
                             <TableEditButton name="Category">
                                 <CategoryAdminForm category={c} />

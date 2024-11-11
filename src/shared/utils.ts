@@ -5,7 +5,7 @@ import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export const parseZodErrors = (state: any) => {
+export const parseZodErrors = async (state: any) => {
     const errObj = state.error.format();
     return Object.keys(errObj).reduce((acc, key) => {
         acc[key] = errObj[key]._errors?.join(', ');
