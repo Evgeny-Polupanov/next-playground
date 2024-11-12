@@ -1,19 +1,24 @@
 'use client';
 
 import { Image, dangerButtonClassName, primaryButtonClassName } from '@/shared';
-import { ChangeEventHandler, FC, useRef, useState } from 'react';
+import { ChangeEventHandler, FC, useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 
-export const UploadImage: FC<{ defaultValue?: string; name?: string }> = ({
-    defaultValue,
-    name = 'image',
-}) => {
+export const UploadImage: FC<{
+    defaultValue?: string | null;
+    name?: string;
+    value?: string | null;
+}> = ({ defaultValue, name = 'image', value }) => {
     const imageRef = useRef<HTMLInputElement | null>(null);
     const isDirtyRef = useRef<HTMLInputElement | null>(null);
 
     const [image, setImage] = useState<string | ArrayBuffer>(
         defaultValue ?? '',
     );
+
+    useEffect(() => {
+        setImage(value ?? '');
+    }, [value]);
 
     const { pending } = useFormStatus();
 

@@ -36,6 +36,7 @@ export const onLogin = async (prevState: FormState, data: FormData) => {
         const user = {
             id: existingUser.id,
             email: existingUser.email,
+            isAdmin: existingUser.isAdmin,
         };
 
         const expires = new Date(Date.now() + 60 * 60 * 24 * 7 * 1000);
