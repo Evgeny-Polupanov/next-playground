@@ -33,6 +33,11 @@ export async function DELETE(
 
     await prisma.category.delete({ where: { id } });
 
+    await prisma.product.updateMany({
+        where: { categoryId: id },
+        data: { categoryId: null },
+    });
+
     revalidatePath('/admin/categories', 'page');
 
     return NextResponse.json({ deleted: true }, { status: 200 });

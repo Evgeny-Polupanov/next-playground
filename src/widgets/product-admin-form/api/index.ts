@@ -13,6 +13,7 @@ const saveProductSchema = z.object({
         .trim()
         .min(1, { message: 'Title must be at least 1 character long' })
         .max(255, { message: "Title can't exceed 255 characters" }),
+    category: z.string().optional(),
     description: z
         .string()
         .trim()
@@ -75,11 +76,13 @@ export const onAdminSaveProduct = async (
         const description = data.get('description')?.toString() ?? '';
         const price = +data.get('price')?.valueOf()!;
         const count = +data.get('count')?.valueOf()!;
+        const categoryId = data.get('category')?.toString() ?? null;
 
         if (id) {
             await prisma.product.update({
                 data: {
                     title,
+                    categoryId,
                     description,
                     imageUrl,
                     price,
@@ -91,6 +94,7 @@ export const onAdminSaveProduct = async (
             await prisma.product.create({
                 data: {
                     title,
+                    categoryId,
                     description,
                     imageUrl,
                     price,

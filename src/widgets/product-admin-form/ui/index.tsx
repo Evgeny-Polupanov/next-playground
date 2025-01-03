@@ -9,7 +9,7 @@ import {
     inputClassName,
     useModalContext,
 } from '@/shared';
-import { Product } from '@prisma/client';
+import { Category, Product } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
@@ -21,6 +21,12 @@ const ProductAdminFields: FC<{
     const { pending } = useFormStatus();
     const close = useModalContext();
     const [defaultImage, setDefaultImage] = useState('');
+    const [categories, setCategories] = useState<Omit<Category, 'imageUrl'>[]>(
+        [],
+    );
+    const [category, setCategory] = useState<Omit<Category, 'imageUrl'> | null>(
+        null,
+    );
 
     useEffect(() => {
         if (state.status === 200) {
@@ -39,6 +45,19 @@ const ProductAdminFields: FC<{
                 .catch((err) => console.error(err));
         }
     }, [product]);
+
+    useEffect(() => {
+        fetch('/api/category')
+            .then((res) => res.json())
+            .then((categories: Omit<Category, 'imageUrl'>[]) => {
+                setCategories(categories);
+                setCategory(
+                    categories.find((c) => c.id === product?.categoryId) ??
+                        null,
+                );
+            })
+            .catch((err) => console.error(err));
+    }, []);
 
     return (
         <div className="grid gap-4 my-4 py-4 grid-cols-2 border-y rounded-t dark:border-gray-600">
@@ -60,6 +79,35 @@ const ProductAdminFields: FC<{
                     disabled={pending}
                 />
                 <ErrorLabel error={state.title} />
+            </div>
+            <div className="col-span-2">
+                <label
+                    htmlFor="category"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                    Category
+                </label>
+                <select
+                    name="category"
+                    id="category"
+                    className={inputClassName}
+                    value={category?.id}
+                    onChange={(e) =>
+                        setCategory(
+                            categories.find((c) => c.id === e.target.value) ||
+                                null,
+                        )
+                    }
+                    disabled={pending}
+                >
+                    <option value={undefined}>No category</option>
+                    {categories.map((c) => (
+                        <option key={c.id} value={c.id}>
+                            {c.title}
+                        </option>
+                    ))}
+                </select>
+                <ErrorLabel error={state.categoryId} />
             </div>
             <div className="col-span-2">
                 <label
@@ -134,6 +182,7 @@ export const ProductAdminForm: FC<{ product?: Product }> = ({ product }) => {
         onAdminSaveProduct,
         {
             title: '',
+            category: '',
             description: '',
             price: '',
             count: '',
