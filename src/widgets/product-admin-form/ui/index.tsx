@@ -10,6 +10,7 @@ import {
     useModalContext,
 } from '@/shared';
 import { Product } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
@@ -141,6 +142,8 @@ export const ProductAdminForm: FC<{ product?: Product }> = ({ product }) => {
 
     const close = useModalContext();
 
+    const router = useRouter();
+
     const openDeleteConfirm = () => {
         const isSure = confirm('Are you sure you want to delete this product?');
         if (isSure && product?.id && close) {
@@ -150,6 +153,7 @@ export const ProductAdminForm: FC<{ product?: Product }> = ({ product }) => {
                 .then((res) => {
                     if (res.status === 200) {
                         close();
+                        router.refresh();
                     }
                 })
                 .catch((e) => console.error(e));

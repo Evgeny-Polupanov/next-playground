@@ -10,6 +10,7 @@ import {
     useModalContext,
 } from '@/shared';
 import { Category } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
@@ -82,6 +83,8 @@ export const CategoryAdminForm: FC<{ category?: Category }> = ({
 
     const close = useModalContext();
 
+    const router = useRouter();
+
     const openDeleteConfirm = () => {
         const isSure = confirm(
             'Are you sure you want to delete this category?',
@@ -93,6 +96,7 @@ export const CategoryAdminForm: FC<{ category?: Category }> = ({
                 .then((res) => {
                     if (res.status === 200) {
                         close();
+                        router.refresh();
                     }
                 })
                 .catch((e) => console.error(e));
