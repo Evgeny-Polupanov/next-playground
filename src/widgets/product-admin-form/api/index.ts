@@ -24,7 +24,7 @@ const saveProductSchema = z.object({
     count: z
         .number()
         .int()
-        .min(0, 'Balance must be greater than or equal to zero'),
+        .min(0, 'Count must be greater than or equal to zero'),
 });
 
 export const onAdminSaveProduct = async (
@@ -76,7 +76,7 @@ export const onAdminSaveProduct = async (
         const description = data.get('description')?.toString() ?? '';
         const price = +data.get('price')?.valueOf()!;
         const count = +data.get('count')?.valueOf()!;
-        const categoryId = data.get('category')?.toString() ?? null;
+        const categoryId = data.get('category')?.toString() || null;
 
         if (id) {
             await prisma.product.update({

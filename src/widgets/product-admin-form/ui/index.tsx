@@ -100,7 +100,7 @@ const ProductAdminFields: FC<{
                     }
                     disabled={pending}
                 >
-                    <option value={undefined}>No category</option>
+                    <option value="">No category</option>
                     {categories.map((c) => (
                         <option key={c.id} value={c.id}>
                             {c.title}

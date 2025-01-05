@@ -4,12 +4,15 @@ import React from 'react';
 import prisma from '~/lib/prisma';
 
 const getData = async () => {
-    const products = await prisma.product.findMany({ orderBy: { id: 'desc' } });
+    const products = await prisma.product.findMany({
+        orderBy: { id: 'desc' },
+        include: { category: true },
+    });
 
     return { products };
 };
 
-const headers = ['ID', 'Title', 'Image URL', 'Price', 'Count', ''];
+const headers = ['ID', 'Title', 'Category', 'Image URL', 'Price', 'Count', ''];
 
 export default async function CategoriesAdmin() {
     const { products } = await getData();
@@ -38,6 +41,9 @@ export default async function CategoriesAdmin() {
                             {p.id}
                         </th>
                         <td className="px-6 py-4">{p.title}</td>
+                        <td className="px-6 py-4">
+                            {p.category?.title ?? 'No category'}
+                        </td>
                         <td className="px-6 py-4">{p.imageUrl}</td>
                         <td className="px-6 py-4">{p.price}</td>
                         <td className="px-6 py-4">{p.count}</td>
