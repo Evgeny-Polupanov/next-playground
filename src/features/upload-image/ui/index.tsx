@@ -17,8 +17,8 @@ export const UploadImage: FC<{
     );
 
     useEffect(() => {
-        setImage(value ?? '');
-    }, [value]);
+        setImage(value ?? defaultValue ?? '');
+    }, [value, defaultValue]);
 
     const { pending } = useFormStatus();
 
