@@ -68,9 +68,7 @@ model User {
   cart          Cart?
   invoices      Invoice[]
   notifications Notification[]
-  contact       User?          @relation("Contacts", fields: [contactId], references: [id])
-  contactId     String?
-  contacts      User[]         @relation("Contacts")
+  contactIds    String[]
 }
 
 model Invoice {

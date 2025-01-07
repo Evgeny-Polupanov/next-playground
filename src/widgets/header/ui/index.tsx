@@ -17,8 +17,8 @@ export const Header: FC<{ avatar: string; isAdmin: boolean }> = ({
                     priority
                 />
             </Link>
-            <div />
-            <Link href="/profile">
+            <Link href="/messages">Messages</Link>
+            <Link href="/profile" className="ml-auto">
                 <Image
                     src={avatar || '/avatar.jpg'}
                     width={75}
