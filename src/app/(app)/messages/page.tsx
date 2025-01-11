@@ -1,4 +1,4 @@
-import { getSession } from '@/shared';
+import { UserWithMessages, getSession } from '@/shared';
 import { Messages } from '@/widgets';
 import prisma from '~/lib/prisma';
 
@@ -20,13 +20,19 @@ const getData = async () => {
         users: users.map((u) => ({
             id: u.id,
             email: u.email,
-            messages: messages
-                .filter((m) => [m.senderId, m.receiverId].includes(u.id))
-                .map((m) => ({
-                    id: m.id,
-                    content: m.content,
-                    datetime: m.datetime,
-                })),
+            messages: messages.reduce<UserWithMessages['messages']>(
+                (messages, m) => {
+                    if ([m.senderId, m.receiverId].includes(u.id)) {
+                        messages.push({
+                            id: m.id,
+                            content: m.content,
+                            datetime: m.datetime,
+                        });
+                    }
+                    return messages;
+                },
+                [],
+            ),
         })),
     };
 };
