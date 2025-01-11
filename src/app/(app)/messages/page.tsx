@@ -12,7 +12,7 @@ const getData = async () => {
     const users = await prisma.user.findMany();
 
     const messages = await prisma.message.findMany({
-        where: { senderId: user?.id, receiverId: user?.id },
+        where: { OR: [{ senderId: user?.id }, { receiverId: user?.id }] },
         orderBy: { datetime: 'desc' },
     });
 
