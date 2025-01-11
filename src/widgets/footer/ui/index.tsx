@@ -1,4 +1,6 @@
-export const Footer = () => {
+import { FC } from 'react';
+
+export const Footer: FC<{ email: string }> = ({ email }) => {
     return (
         <footer className="h-24 bg-zinc-800 flex items-center justify-between gap-4 px-8">
             <a
@@ -9,7 +11,7 @@ export const Footer = () => {
                 Logo image by logturnal on Freepik
             </a>
             <a className="underline font-bold" href="mailto:test@test.com">
-                test@test.com
+                {email}
             </a>
         </footer>
     );

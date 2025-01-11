@@ -7,5 +7,6 @@ export interface UserWithMessages {
         id: string;
         content: string;
         datetime: Date;
+        isOwn: boolean;
     }[];
 }

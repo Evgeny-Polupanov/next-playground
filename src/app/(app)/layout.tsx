@@ -1,6 +1,7 @@
 import { getSession } from '@/shared';
 import { Footer, Header } from '@/widgets';
 import { redirect } from 'next/navigation';
+import React from 'react';
 import { s3Client } from '~/lib/file-management';
 import prisma from '~/lib/prisma';
 
@@ -15,13 +16,13 @@ const getData = async () => {
         redirect('/signin');
     }
 
-    const { avatarUrl, isAdmin } = user;
+    const { avatarUrl, isAdmin, email } = user;
 
     const avatar = avatarUrl
         ? await s3Client.presignedGetObject('avatars', avatarUrl)
         : '';
 
-    return { avatar, isAdmin };
+    return { avatar, isAdmin, email };
 };
 
 export default async function RootLayout({
@@ -29,13 +30,13 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const { avatar, isAdmin } = await getData();
+    const { avatar, isAdmin, email } = await getData();
 
     return (
         <>
             <Header avatar={avatar} isAdmin={isAdmin} />
             <main className="flex-grow">{children}</main>
-            <Footer />
+            <Footer email={email} />
         </>
     );
 }

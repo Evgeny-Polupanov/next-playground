@@ -6,10 +6,37 @@ import {
     primaryButtonClassName,
 } from '@/shared';
 import classNames from 'classnames';
-import { FC, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { FC, FormEventHandler, useMemo, useRef, useState } from 'react';
 
 export const Messages: FC<{ users: UserWithMessages[] }> = ({ users }) => {
     const [chat, setChat] = useState<string | null>(null);
+    const [message, setMessage] = useState('');
+    const messageRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const router = useRouter();
+
+    const chatee = useMemo(
+        () => users.find((u) => u.id === chat),
+        [users, chat],
+    );
+
+    const sendMessage: FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+
+        if (!message) {
+            return;
+        }
+
+        fetch(`/api/message/${chatee?.id}`, {
+            method: 'POST',
+            body: JSON.stringify({ message }),
+        }).then(() => {
+            setMessage('');
+            messageRef.current?.focus();
+            router.refresh();
+        });
+    };
 
     return (
         <div className="flex flex-col gap-4 p-4">
@@ -42,21 +69,29 @@ export const Messages: FC<{ users: UserWithMessages[] }> = ({ users }) => {
                     {chat ? (
                         <div className="flex flex-col justify-between">
                             <ul style={{ height: '70vh' }}>
-                                {users
-                                    .find((u) => u.id === chat)
-                                    ?.messages.map((m) => (
-                                        <li key={m.id}>{m.content}</li>
-                                    ))}
+                                {chatee?.messages.map((m) => (
+                                    <li
+                                        className={classNames({
+                                            'text-right': m.isOwn,
+                                        })}
+                                        key={m.id}
+                                    >
+                                        {m.content}
+                                    </li>
+                                ))}
                             </ul>
-                            <form className="flex">
+                            <form className="flex" onSubmit={sendMessage}>
                                 <textarea
                                     className={inputClassName}
                                     placeholder="Your message..."
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    ref={messageRef}
                                 />
                                 <button
                                     className={primaryButtonClassName}
                                     style={{ width: 100 }}
-                                    type="button"
+                                    type="submit"
                                 >
                                     Send
                                 </button>
