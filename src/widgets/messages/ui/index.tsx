@@ -7,28 +7,23 @@ import {
 } from '@/shared';
 import classNames from 'classnames';
 import { useRouter } from 'next/navigation';
-import { FC, FormEventHandler, useMemo, useRef, useState } from 'react';
+import { FC, FormEventHandler, useRef, useState } from 'react';
 
 export const Messages: FC<{ users: UserWithMessages[] }> = ({ users }) => {
-    const [chat, setChat] = useState<string | null>(null);
+    const [chatee, setChatee] = useState<UserWithMessages | null>(null);
     const [message, setMessage] = useState('');
     const messageRef = useRef<HTMLTextAreaElement | null>(null);
 
     const router = useRouter();
 
-    const chatee = useMemo(
-        () => users.find((u) => u.id === chat),
-        [users, chat],
-    );
-
     const sendMessage: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
 
-        if (!message) {
+        if (!message || !chatee) {
             return;
         }
 
-        fetch(`/api/message/${chatee?.id}`, {
+        fetch(`/api/message/${chatee.id}`, {
             method: 'POST',
             body: JSON.stringify({ message }),
         }).then(() => {
@@ -45,7 +40,7 @@ export const Messages: FC<{ users: UserWithMessages[] }> = ({ users }) => {
                 <ul
                     className="overflow-y-auto"
                     style={{ width: 320, height: 'calc(70vh + 62px)' }}
-                    onClick={() => setChat(null)}
+                    onClick={() => setChatee(null)}
                 >
                     {users.map((user) => (
                         <li
@@ -53,12 +48,12 @@ export const Messages: FC<{ users: UserWithMessages[] }> = ({ users }) => {
                             className={classNames(
                                 'odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 whitespace-nowrap overflow-hidden text-ellipsis h-10 flex items-center p-2 rounded cursor-pointer',
                                 {
-                                    invert: user.id === chat,
+                                    invert: user.id === chatee?.id,
                                 },
                             )}
                             onClick={(e) => {
                                 e.stopPropagation();
-                                setChat(user.id);
+                                setChatee(user);
                             }}
                         >
                             {user.email}
@@ -66,10 +61,10 @@ export const Messages: FC<{ users: UserWithMessages[] }> = ({ users }) => {
                     ))}
                 </ul>
                 <div className="flex-grow">
-                    {chat ? (
+                    {chatee ? (
                         <div className="flex flex-col justify-between">
                             <ul style={{ height: '70vh' }}>
-                                {chatee?.messages.map((m) => (
+                                {chatee.messages.map((m) => (
                                     <li
                                         className={classNames({
                                             'text-right': m.isOwn,
