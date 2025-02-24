@@ -36,7 +36,10 @@ export const Messages: FC<{ users: UserWithMessages[] }> = ({ users }) => {
     return (
         <div className="flex flex-col gap-4 p-4">
             <h1 className="text-5xl mb-4">Messages</h1>
-            <section className="flex gap-4">
+            <section
+                className="flex gap-4 w-full mx-auto"
+                style={{ maxWidth: 1024 }}
+            >
                 <ul
                     className="overflow-y-auto"
                     style={{ width: 320, height: 'calc(70vh + 62px)' }}
