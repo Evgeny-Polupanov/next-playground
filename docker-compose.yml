@@ -1,12 +1,13 @@
 version: '3.9'
 services:
     storage:
-        image: docker.io/bitnami/minio:2024
+        image: minio/minio
+        command: minio server /data --console-address ":9001"
         ports:
             - '9000:9000'
             - '9001:9001'
         volumes:
-            - 'minio_data:/bitnami/minio/data'
+            - 'minio_data:/data'
         environment:
             MINIO_ROOT_USER: ROOTUSER
             MINIO_ROOT_PASSWORD: ROOTPASSWORD

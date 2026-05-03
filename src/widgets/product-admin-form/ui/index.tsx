@@ -11,8 +11,8 @@ import {
 } from '@/shared';
 import { Category, Product } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { FC, useEffect, useState, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const ProductAdminFields: FC<{
     product?: Product;
@@ -178,7 +178,7 @@ const ProductAdminFields: FC<{
 };
 
 export const ProductAdminForm: FC<{ product?: Product }> = ({ product }) => {
-    const [state, action] = useFormState<FormState, FormData>(
+    const [state, action] = useActionState<FormState, FormData>(
         onAdminSaveProduct,
         {
             title: '',

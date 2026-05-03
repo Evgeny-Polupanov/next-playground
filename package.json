@@ -14,10 +14,10 @@
         "bcrypt": "^5.1.1",
         "jose": "^5.6.3",
         "minio": "^8.0.1",
-        "next": "14.2.4",
+        "next": "16.2.3",
         "react": "^18",
         "react-dom": "^18.3.1",
-        "uuid": "^10.0.0",
+        "uuid": "14.0.0",
         "zod": "^3.23.8"
     },
     "devDependencies": {
@@ -30,7 +30,7 @@
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@types/uuid": "^10.0.0",
-        "eslint": "^8",
+        "eslint": "9.26.0",
         "eslint-config-next": "14.2.4",
         "husky": "^9.0.11",
         "postcss": "^8",

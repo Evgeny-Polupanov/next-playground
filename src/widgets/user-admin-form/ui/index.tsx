@@ -9,8 +9,8 @@ import {
     inputClassName,
     useModalContext,
 } from '@/shared';
-import { FC, useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { FC, useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const UserAdminFields: FC<{
     user: SafeUser;
@@ -145,7 +145,7 @@ const UserAdminFields: FC<{
 };
 
 export const UserAdminForm: FC<{ user: SafeUser }> = ({ user }) => {
-    const [state, action] = useFormState<FormState, FormData>(onAdminSaveUser, {
+    const [state, action] = useActionState<FormState, FormData>(onAdminSaveUser, {
         firstName: '',
         lastName: '',
         email: '',

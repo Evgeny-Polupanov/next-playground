@@ -11,8 +11,8 @@ import {
 } from '@/shared';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FC, useEffect, useRef } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { FC, useEffect, useRef, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 interface UserFields {
     firstName: string;
@@ -125,7 +125,7 @@ const ProfileFields: FC<{ state: FormState; user: UserFields }> = ({
 export const ProfileForm: FC<{
     user: UserFields;
 }> = ({ user }) => {
-    const [state, action] = useFormState<FormState, FormData>(onSaveUser, {
+    const [state, action] = useActionState<FormState, FormData>(onSaveUser, {
         firstName: '',
         lastName: '',
         email: '',

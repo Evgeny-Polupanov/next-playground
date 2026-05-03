@@ -25,7 +25,7 @@ const decrypt = async (session: string) => {
 };
 
 export const getSession = async (isForApi = false) => {
-    const session = cookies().get('session')?.value;
+    const session = (await cookies())?.get('session')?.value;
     if (!session) {
         if (isForApi) {
             return null;

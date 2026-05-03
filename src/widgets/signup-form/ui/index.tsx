@@ -5,8 +5,8 @@ import { ErrorLabel, UploadImage } from '@/features';
 import { FormState, SubmitButton, inputClassName } from '@/shared';
 import Link from 'next/link';
 import { RedirectType, redirect } from 'next/navigation';
-import { FC, useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { FC, useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const SignupFields: FC<{ state: FormState }> = ({ state }) => {
     const { pending } = useFormStatus();
@@ -74,7 +74,7 @@ const SignupFields: FC<{ state: FormState }> = ({ state }) => {
 };
 
 export const SignupForm = () => {
-    const [state, action] = useFormState<FormState, FormData>(onCreateUser, {
+    const [state, action] = useActionState<FormState, FormData>(onCreateUser, {
         firstName: '',
         lastName: '',
         email: '',

@@ -11,8 +11,8 @@ import {
 } from '@/shared';
 import { Category } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { FC, useEffect, useState, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const CategoryAdminFields: FC<{
     category?: Category;
@@ -74,7 +74,7 @@ const CategoryAdminFields: FC<{
 export const CategoryAdminForm: FC<{ category?: Category }> = ({
     category,
 }) => {
-    const [state, action] = useFormState<FormState, FormData>(
+    const [state, action] = useActionState<FormState, FormData>(
         onAdminSaveCategory,
         {
             title: '',

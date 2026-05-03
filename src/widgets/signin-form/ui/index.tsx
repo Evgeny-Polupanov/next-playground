@@ -5,8 +5,8 @@ import { ErrorLabel } from '@/features';
 import { FormState, SubmitButton, inputClassName } from '@/shared';
 import Link from 'next/link';
 import { RedirectType, redirect } from 'next/navigation';
-import { FC, useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { FC, useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const SigninFields: FC<{ state: FormState }> = ({ state }) => {
     const { pending } = useFormStatus();
@@ -35,7 +35,7 @@ const SigninFields: FC<{ state: FormState }> = ({ state }) => {
 };
 
 export const SigninForm = () => {
-    const [state, action] = useFormState<FormState, FormData>(onLogin, {
+    const [state, action] = useActionState<FormState, FormData>(onLogin, {
         login: '',
     });
 
